@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/api/home.dart';
 import 'package:flutter_application_1/components/Home/HmCategory.dart';
 import 'package:flutter_application_1/components/Home/HmHot.dart';
 import 'package:flutter_application_1/components/Home/HmMoreList.dart';
@@ -15,8 +16,9 @@ class HomeView extends StatefulWidget {
 
 class _HomeViewState extends State<HomeView> {
 
-  final List<BannerItem> _bannerList = [
-    BannerItem(
+  List<CategoryItem> _categoryList = [];
+   List<BannerItem> _bannerList = [
+    /* BannerItem(
       id:"1", 
       imgUrl: "https://n.sinaimg.cn/sinakd20112/384/w2048h1536/20220731/5c76-18753651605f5006fe7cc156f19584e7.jpg"
       ),
@@ -25,7 +27,7 @@ class _HomeViewState extends State<HomeView> {
       imgUrl: "https://y3.ifengimg.com/a/2014_52/2633f87e648cb10.jpg"),
     BannerItem(
       id: "3", 
-      imgUrl: "https://n.sinaimg.cn/sinakd20112/384/w2048h1536/20220731/b460-d29aff0e856054d1df870fd0768f0e3b.jpg"),
+      imgUrl: "https://n.sinaimg.cn/sinakd20112/384/w2048h1536/20220731/b460-d29aff0e856054d1df870fd0768f0e3b.jpg"), */
   ];
 
   List<Widget> _getScrollChildern(){
@@ -35,11 +37,11 @@ class _HomeViewState extends State<HomeView> {
       //分类组件 SizedBox一个简单的空隙组件
       SliverToBoxAdapter(child: SizedBox(height: 10)),
       //分类
-      SliverToBoxAdapter(child: HmCategory()),
+      SliverToBoxAdapter(child: HmCategory(categoryList: _categoryList)),
       //
       SliverToBoxAdapter(child: SizedBox(height: 10)),
       //推荐
-      SliverToBoxAdapter(child: HmSuggestion()),
+      SliverToBoxAdapter(child: HmSuggestion(specialRecommendResult: _specialRecommendResult,)),
 
       SliverToBoxAdapter(child: SizedBox(height: 10)),
 
@@ -61,6 +63,37 @@ class _HomeViewState extends State<HomeView> {
       HmMoreList()
     ];
   }
+SpecialRecommendResult _specialRecommendResult = SpecialRecommendResult(
+  id: "", title: "", subTypes: []);
+
+
+  @override
+  void initState() {
+    super.initState();
+    _getBannerList();
+    _getCategoryList();
+    _getProductList();
+  }
+
+  void _getProductList() async{
+    _specialRecommendResult = await getProductListAPI();
+    setState(() {
+      
+    });
+  }
+  void _getCategoryList()async{
+    _categoryList = await getCategoryListAPI();
+    setState(() {
+      
+    });
+  }
+  void _getBannerList()async {
+    _bannerList = await getBannerListAPI();
+    setState(() {
+      
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(slivers: _getScrollChildern());
