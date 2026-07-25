@@ -19,7 +19,7 @@ List<GoodsItem> _getDisplayItems(){
   toList();
 }
 
-  Widget _buildHEader(){
+  Widget _buildHeader(){
     return Row(
       children: [
         Text("特别推荐",
@@ -110,7 +110,7 @@ List<Widget> _getChildrenList(){
         ),
         child: Column(
           children: [
-            _buildHEader(),
+            _buildHeader(),
             SizedBox(height: 10,),
             Row(
               children: [

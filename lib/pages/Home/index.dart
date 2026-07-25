@@ -52,9 +52,11 @@ class _HomeViewState extends State<HomeView> {
           child:Flex(
             direction: Axis.horizontal,
             children: [
-              Expanded(child: HmHot()), 
+              Expanded(
+                child: HmHot(result: _inVogueResult,type: "hot",)), 
               SizedBox(width: 10),
-              Expanded(child: HmHot()), 
+              Expanded(
+                child: HmHot(result: _oneStopResult,type: "step",)), 
             ],
           ),
         )
@@ -66,6 +68,12 @@ class _HomeViewState extends State<HomeView> {
 SpecialRecommendResult _specialRecommendResult = SpecialRecommendResult(
   id: "", title: "", subTypes: []);
 
+SpecialRecommendResult _inVogueResult = SpecialRecommendResult(
+  id: "", title: "", subTypes: []);
+
+SpecialRecommendResult _oneStopResult = SpecialRecommendResult(
+  id: "", title: "", subTypes: []);
+
 
   @override
   void initState() {
@@ -73,14 +81,31 @@ SpecialRecommendResult _specialRecommendResult = SpecialRecommendResult(
     _getBannerList();
     _getCategoryList();
     _getProductList();
+    _getInVogueList();
+    _getOneStopList();
   }
 
-  void _getProductList() async{
+  void _getInVogueList() async{
+    _inVogueResult = await getInVogueListAPI();
+    setState(() {
+      
+    });
+  }
+
+  void _getOneStopList() async{
+    _oneStopResult = await getOneStopListAPI();
+    setState(() {
+      
+    });
+  }
+
+    void _getProductList() async{
     _specialRecommendResult = await getProductListAPI();
     setState(() {
       
     });
   }
+
   void _getCategoryList()async{
     _categoryList = await getCategoryListAPI();
     setState(() {

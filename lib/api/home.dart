@@ -25,3 +25,15 @@ Future<SpecialRecommendResult> getProductListAPI() async{
     await dioRequest.get(HttpConstants.PRODUCT_LIST),
   );
 }
+
+Future<SpecialRecommendResult> getInVogueListAPI() async{
+  return SpecialRecommendResult.fromJSON(
+    await dioRequest.get(HttpConstants.IN_VOGUE_LIST),
+  );
+}
+
+Future<SpecialRecommendResult> getOneStopListAPI() async{
+  return SpecialRecommendResult.fromJSON(
+    await dioRequest.get(HttpConstants.ONE_STOP_LIST),
+  );
+}
