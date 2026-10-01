@@ -62,7 +62,7 @@ class _HomeViewState extends State<HomeView> {
         )
       ),
       SliverToBoxAdapter(child: SizedBox(height: 10)),
-      HmMoreList()
+      HmMoreList(recommendList: _recommendList),
     ];
   }
 SpecialRecommendResult _specialRecommendResult = SpecialRecommendResult(
@@ -74,6 +74,7 @@ SpecialRecommendResult _inVogueResult = SpecialRecommendResult(
 SpecialRecommendResult _oneStopResult = SpecialRecommendResult(
   id: "", title: "", subTypes: []);
 
+List<GoodDetailItem> _recommendList = [];
 
   @override
   void initState() {
@@ -83,7 +84,16 @@ SpecialRecommendResult _oneStopResult = SpecialRecommendResult(
     _getProductList();
     _getInVogueList();
     _getOneStopList();
+    _getRecommendList();
   }
+
+void _getRecommendList() async{
+
+  _recommendList = await getRecommendListAPI({"Limit": 10});
+    setState(() {
+  });
+
+}
 
   void _getInVogueList() async{
     _inVogueResult = await getInVogueListAPI();
@@ -99,7 +109,7 @@ SpecialRecommendResult _oneStopResult = SpecialRecommendResult(
     });
   }
 
-    void _getProductList() async{
+  void _getProductList() async{
     _specialRecommendResult = await getProductListAPI();
     setState(() {
       
@@ -122,5 +132,6 @@ SpecialRecommendResult _oneStopResult = SpecialRecommendResult(
   @override
   Widget build(BuildContext context) {
     return CustomScrollView(slivers: _getScrollChildern());
-  }
+    
+  }     
 }

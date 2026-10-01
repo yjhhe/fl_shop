@@ -59,9 +59,9 @@ Widget _buildHeader(){
       children: [
         Text(
           widget.type == "step" ? "一站买全" : "爆款推荐",
-        style: TextStyle(color: Colors.pink,
-        fontSize:18,
-        fontWeight: FontWeight.w700),
+          style: TextStyle(color: Colors.pink,
+          fontSize:18,
+          fontWeight: FontWeight.w700),
         ),
         SizedBox(
           width: 10,
