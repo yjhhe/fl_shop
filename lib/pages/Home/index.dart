@@ -5,6 +5,7 @@ import 'package:flutter_application_1/components/Home/HmHot.dart';
 import 'package:flutter_application_1/components/Home/HmMoreList.dart';
 import 'package:flutter_application_1/components/Home/HmSuggestion.dart';
 import 'package:flutter_application_1/components/Home/Hmslider.dart';
+import 'package:flutter_application_1/utils/ToastUtils.dart';
 import 'package:flutter_application_1/viewmodels/home.dart';
 
 class HomeView extends StatefulWidget {
@@ -76,62 +77,85 @@ SpecialRecommendResult _oneStopResult = SpecialRecommendResult(
 
 List<GoodDetailItem> _recommendList = [];
 
+//实现上拉加载需要的三个
+int _page =1;
+bool _isLoading = false;
+bool _hasMore =true;
+
   @override
   void initState() {
     super.initState();
-    _getBannerList();
-    _getCategoryList();
-    _getProductList();
-    _getInVogueList();
-    _getOneStopList();
-    _getRecommendList();
+    // _getBannerList();
+    // _getCategoryList();
+    // _getProductList();
+    // _getInVogueList();
+    // _getOneStopList();
+    // _getRecommendList();
   }
 
-void _getRecommendList() async{
+Future<void> _getRecommendList() async{
 
   _recommendList = await getRecommendListAPI({"Limit": 10});
-    setState(() {
-  });
+  //   setState(() {
+  // });
 
 }
 
-  void _getInVogueList() async{
+  Future<void> _getInVogueList() async{
     _inVogueResult = await getInVogueListAPI();
-    setState(() {
+    // setState(() {
       
-    });
+    // });
   }
 
-  void _getOneStopList() async{
+  Future<void> _getOneStopList() async{
     _oneStopResult = await getOneStopListAPI();
-    setState(() {
+    // setState(() {
       
-    });
+    // });
   }
 
-  void _getProductList() async{
+  Future<void> _getProductList() async{
     _specialRecommendResult = await getProductListAPI();
-    setState(() {
+    // setState(() {
       
-    });
+    // });
   }
 
-  void _getCategoryList()async{
+  Future<void> _getCategoryList()async{
     _categoryList = await getCategoryListAPI();
-    setState(() {
+    // setState(() {
       
-    });
+    // });
   }
-  void _getBannerList()async {
+  Future<void> _getBannerList()async {
     _bannerList = await getBannerListAPI();
-    setState(() {
+    // setState(() {
       
-    });
+    // });
+  }
+
+  Future<void> _onRefresh() async {
+    _page =1;
+    _isLoading = false;
+    _hasMore = true;
+    await _getBannerList();
+    await _getCategoryList();
+    await _getProductList();
+    await _getInVogueList();
+    await _getOneStopList();
+    await _getRecommendList();
+    ToastUtils.showToast(context, "刷新成功");
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(slivers: _getScrollChildern());
-    
+    return RefreshIndicator(
+      onRefresh: _onRefresh,
+      child: CustomScrollView(
+      slivers: _getScrollChildern(),
+      ),
+    );
   }     
 }
